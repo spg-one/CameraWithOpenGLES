@@ -1,8 +1,8 @@
-package com.david.opengl.util;
+package com.david.BeautyRendering.util;
 
 import android.content.res.Resources;
 
-import com.david.opengl.MyApplication;
+import com.david.BeautyRendering.MyApplication;
 
 import java.io.BufferedReader;
 import java.io.IOException;

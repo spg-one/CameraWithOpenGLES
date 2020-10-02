@@ -1,4 +1,4 @@
-package com.david.opengl.render;
+package com.david.BeautyRendering.render;
 
 import android.graphics.SurfaceTexture;
 import android.opengl.GLES11Ext;
@@ -6,9 +6,10 @@ import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
 import android.util.Log;
 
-import com.david.opengl.R;
-import com.david.opengl.util.RenderUtil;
-import com.david.opengl.util.ResReadUtils;
+import com.david.BeautyRendering.NativeJNILib;
+import com.david.BeautyRendering.R;
+import com.david.BeautyRendering.util.RenderUtil;
+import com.david.BeautyRendering.util.ResReadUtils;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -25,9 +26,6 @@ import javax.microedition.khronos.opengles.GL10;
  */
 public class Camera2SurfaceRenderer implements GLSurfaceView.Renderer {
 
-    private final FloatBuffer vertexBuffer, mTexVertexBuffer;
-
-    private final ShortBuffer mVertexIndexBuffer;
 
     private int mProgram;
 
@@ -78,25 +76,6 @@ public class Camera2SurfaceRenderer implements GLSurfaceView.Renderer {
     private SurfaceTexture mSurfaceTexture;
 
     public Camera2SurfaceRenderer() {
-        //分配内存空间,每个浮点型占4字节空间
-        vertexBuffer = ByteBuffer.allocateDirect(POSITION_VERTEX.length * 4)
-                .order(ByteOrder.nativeOrder())
-                .asFloatBuffer();
-        //传入指定的坐标数据
-        vertexBuffer.put(POSITION_VERTEX);
-        vertexBuffer.position(0);
-
-        mTexVertexBuffer = ByteBuffer.allocateDirect(TEX_VERTEX.length * 4)
-                .order(ByteOrder.nativeOrder())
-                .asFloatBuffer()
-                .put(TEX_VERTEX);
-        mTexVertexBuffer.position(0);
-
-        mVertexIndexBuffer = ByteBuffer.allocateDirect(VERTEX_INDEX.length * 2)
-                .order(ByteOrder.nativeOrder())
-                .asShortBuffer()
-                .put(VERTEX_INDEX);
-        mVertexIndexBuffer.position(0);
     }
 
 
@@ -107,53 +86,56 @@ public class Camera2SurfaceRenderer implements GLSurfaceView.Renderer {
         textureId = loadTexture();
         mSurfaceTexture = new SurfaceTexture(textureId);
 //设置背景颜色
-        GLES30.glClearColor(0.5f, 0.5f, 0.5f, 0.5f);
-        //编译
-        final int vertexShaderId = RenderUtil.compileShader(GLES30.GL_VERTEX_SHADER, ResReadUtils.readResource(R.raw.vertex_camera_shader));
-        final int fragmentShaderId = RenderUtil.compileShader(GLES30.GL_FRAGMENT_SHADER, ResReadUtils.readResource(R.raw.fragment_camera_shader));
-        //链接程序片段
-        mProgram = RenderUtil.linkProgram(vertexShaderId, fragmentShaderId);
-
-        uTextureMatrixLocation = GLES30.glGetUniformLocation(mProgram, "uTextureMatrix");
-        //获取Shader中定义的变量在program中的位置
-        uTextureSamplerLocation = GLES30.glGetUniformLocation(mProgram, "yuvTexSampler");
+//        GLES30.glClearColor(0.5f, 0.5f, 0.5f, 0.5f);
+//        //编译
+//        final int vertexShaderId = RenderUtil.compileShader(GLES30.GL_VERTEX_SHADER, ResReadUtils.readResource(R.raw.vertex_camera_shader));
+//        final int fragmentShaderId = RenderUtil.compileShader(GLES30.GL_FRAGMENT_SHADER, ResReadUtils.readResource(R.raw.fragment_camera_shader));
+//        //链接程序片段
+//        mProgram = RenderUtil.linkProgram(vertexShaderId, fragmentShaderId);
+//
+//        uTextureMatrixLocation = GLES30.glGetUniformLocation(mProgram, "uTextureMatrix");
+//        //获取Shader中定义的变量在program中的位置
+//        uTextureSamplerLocation = GLES30.glGetUniformLocation(mProgram, "yuvTexSampler");
     }
 
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
-        GLES30.glViewport(0, 0, width, height);
-
+        //GLES30.glViewport(0, 0, width, height);
+        NativeJNILib.init(width, height, textureId);
     }
 
     @Override
     public void onDrawFrame(GL10 gl) {
-        GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT);
+        //GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT);
 
         //使用程序片段
-        GLES30.glUseProgram(mProgram);
+        //GLES30.glUseProgram(mProgram);
 
         //更新纹理图像
         mSurfaceTexture.updateTexImage();
         mSurfaceTexture.getTransformMatrix(transformMatrix);
+//
+//        //激活纹理单元0
+//        GLES30.glActiveTexture(GLES30.GL_TEXTURE0);
+//        //绑定外部纹理到纹理单元0
+//        GLES30.glBindTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, textureId);
+//        //将此纹理单元床位片段着色器的uTextureSampler外部纹理采样器
+//        GLES30.glUniform1i(uTextureSamplerLocation, 0);
+//
+//        //将纹理矩阵传给片段着色器
+//        GLES30.glUniformMatrix4fv(uTextureMatrixLocation, 1, false, transformMatrix, 0);
+//
+//        GLES30.glEnableVertexAttribArray(0);
+//        GLES30.glVertexAttribPointer(0, 3, GLES30.GL_FLOAT, false, 0, vertexBuffer);
+//
+//        GLES30.glEnableVertexAttribArray(1);
+//        GLES30.glVertexAttribPointer(1, 2, GLES30.GL_FLOAT, false, 0, mTexVertexBuffer);
+//
+//        // 绘制
+//        GLES30.glDrawElements(GLES30.GL_TRIANGLES, VERTEX_INDEX.length, GLES30.GL_UNSIGNED_SHORT, mVertexIndexBuffer);
 
-        //激活纹理单元0
-        GLES30.glActiveTexture(GLES30.GL_TEXTURE0);
-        //绑定外部纹理到纹理单元0
-        GLES30.glBindTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, textureId);
-        //将此纹理单元床位片段着色器的uTextureSampler外部纹理采样器
-        GLES30.glUniform1i(uTextureSamplerLocation, 0);
 
-        //将纹理矩阵传给片段着色器
-        GLES30.glUniformMatrix4fv(uTextureMatrixLocation, 1, false, transformMatrix, 0);
-
-        GLES30.glEnableVertexAttribArray(0);
-        GLES30.glVertexAttribPointer(0, 3, GLES30.GL_FLOAT, false, 0, vertexBuffer);
-
-        GLES30.glEnableVertexAttribArray(1);
-        GLES30.glVertexAttribPointer(1, 2, GLES30.GL_FLOAT, false, 0, mTexVertexBuffer);
-
-        // 绘制
-        GLES30.glDrawElements(GLES30.GL_TRIANGLES, VERTEX_INDEX.length, GLES30.GL_UNSIGNED_SHORT, mVertexIndexBuffer);
+        NativeJNILib.step(transformMatrix);
     }
 
 

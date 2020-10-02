@@ -1,4 +1,4 @@
-package com.david.opengl;
+package com.david.BeautyRendering;
 
 import android.Manifest;
 import android.app.Activity;
@@ -7,7 +7,7 @@ import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 
-import com.david.opengl.render.CameraSurfaceRenderer;
+import com.david.BeautyRendering.render.CameraSurfaceRenderer;
 
 /**
  * @Author: liuwei

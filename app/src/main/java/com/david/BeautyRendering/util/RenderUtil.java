@@ -1,4 +1,4 @@
-package com.david.opengl.util;
+package com.david.BeautyRendering.util;
 
 import android.opengl.GLES30;
 

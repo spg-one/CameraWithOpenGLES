@@ -1,4 +1,4 @@
-package com.david.opengl;
+package com.david.BeautyRendering;
 
 import org.junit.Test;
 

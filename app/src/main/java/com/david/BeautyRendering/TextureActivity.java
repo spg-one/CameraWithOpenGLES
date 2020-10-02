@@ -1,10 +1,10 @@
-package com.david.opengl;
+package com.david.BeautyRendering;
 
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import com.david.opengl.render.TextureRender;
+import com.david.BeautyRendering.render.TextureRender;
 
 public class TextureActivity extends AppCompatActivity {
     private GLSurfaceView mGLSurfaceView;

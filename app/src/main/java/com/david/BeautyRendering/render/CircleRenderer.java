@@ -1,4 +1,4 @@
-package com.david.opengl.render;
+package com.david.BeautyRendering.render;
 
 import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import static com.david.opengl.util.RenderUtil.compileShader;
-import static com.david.opengl.util.RenderUtil.linkProgram;
+import static com.david.BeautyRendering.util.RenderUtil.compileShader;
+import static com.david.BeautyRendering.util.RenderUtil.linkProgram;
 
 /**
  * @Author: liuwei

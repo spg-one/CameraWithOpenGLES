@@ -1,4 +1,4 @@
-package com.david.opengl.render;
+package com.david.BeautyRendering.render;
 
 import android.content.Context;
 import android.opengl.GLES20;
@@ -6,9 +6,9 @@ import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 
-import com.david.opengl.R;
-import com.david.opengl.util.RenderUtil;
-import com.david.opengl.util.TextureUtils;
+import com.david.BeautyRendering.R;
+import com.david.BeautyRendering.util.RenderUtil;
+import com.david.BeautyRendering.util.TextureUtils;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;

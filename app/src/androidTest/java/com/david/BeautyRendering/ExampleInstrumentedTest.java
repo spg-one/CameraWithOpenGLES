@@ -1,4 +1,4 @@
-package com.david.opengl;
+package com.david.BeautyRendering;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

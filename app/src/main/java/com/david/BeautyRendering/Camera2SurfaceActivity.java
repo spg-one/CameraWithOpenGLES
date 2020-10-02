@@ -1,4 +1,4 @@
-package com.david.opengl;
+package com.david.BeautyRendering;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -20,7 +20,7 @@ import android.util.Log;
 import android.util.Size;
 import android.view.Surface;
 
-import com.david.opengl.render.Camera2SurfaceRenderer;
+import com.david.BeautyRendering.render.Camera2SurfaceRenderer;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -159,7 +159,7 @@ public class Camera2SurfaceActivity extends Activity {
         cameraManager = (CameraManager) MyApplication.getApplication().getSystemService(Context.CAMERA_SERVICE);
         //获取指定相机的输出尺寸列表
         outputSizes = getCameraOutputSizes(cameraId, SurfaceTexture.class);
-        photoSize = outputSizes.get(3);
+        photoSize = outputSizes.get(0);
     }
 
     @SuppressLint("MissingPermission")
