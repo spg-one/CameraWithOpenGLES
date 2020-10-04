@@ -13,13 +13,20 @@ import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.StreamConfigurationMap;
-import android.media.FaceDetector;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.util.Size;
 import android.view.Surface;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.vision.CameraSource;
+import com.google.android.gms.vision.MultiProcessor;
+import com.google.android.gms.vision.Tracker;
+import com.google.android.gms.vision.face.Face;
+import com.google.android.gms.vision.face.FaceDetector;
 
 import com.david.BeautyRendering.render.Camera2SurfaceRenderer;
 
@@ -42,7 +49,7 @@ public class Camera2SurfaceActivity extends Activity {
     private GLSurfaceView mGLSurfaceView;
     SurfaceTexture surfaceTexture;
     private Camera2SurfaceRenderer camera2SurfaceRenderer;
-
+    private CameraSource mCameraSource = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,6 +159,33 @@ public class Camera2SurfaceActivity extends Activity {
     };
 
     private void initCamera() {
+        Context context = getApplicationContext();
+        FaceDetector detector = new FaceDetector.Builder(context)
+                .setClassificationType(FaceDetector.ALL_CLASSIFICATIONS)
+                .build();
+        detector.setProcessor(
+                new MultiProcessor.Builder<>(new GraphicFaceTrackerFactory())
+                        .build());
+
+        if (!detector.isOperational()) {
+            // Note: The first time that an app using face API is installed on a device, GMS will
+            // download a native library to the device in order to do detection.  Usually this
+            // completes before the app is run for the first time.  But if that download has not yet
+            // completed, then the above call will not detect any faces.
+            //
+            // isOperational() can be used to check if the required native library is currently
+            // available.  The detector will automatically become operational once the library
+            // download completes on device.
+            Log.w(TAG, "Face detector dependencies are not yet available.");
+        }
+
+        mCameraSource = new CameraSource.Builder(context, detector)
+                .setRequestedPreviewSize(640, 480)
+                .setFacing(CameraSource.CAMERA_FACING_FRONT)
+                .setRequestedFps(30.0f)
+                .build();
+
+
         cameraManager = (CameraManager) MyApplication.getApplication().getSystemService(Context.CAMERA_SERVICE);
         //获取指定相机的输出尺寸列表
         outputSizes = getCameraOutputSizes(cameraId, SurfaceTexture.class);
@@ -188,5 +222,87 @@ public class Camera2SurfaceActivity extends Activity {
         }
 
         return null;
+    }
+
+    //==============================================================================================
+    // Graphic Face Tracker
+    //==============================================================================================
+
+    /**
+     * Factory for creating a face tracker to be associated with a new face.  The multiprocessor
+     * uses this factory to create face trackers as needed -- one for each individual.
+     */
+    private class GraphicFaceTrackerFactory implements MultiProcessor.Factory<Face> {
+        @Override
+        public Tracker<Face> create(Face face) {
+            return new GraphicFaceTracker();
+        }
+    }
+
+    /**
+     * Face tracker for each detected individual. This maintains a face graphic within the app's
+     * associated face overlay.
+     */
+    private class GraphicFaceTracker extends Tracker<Face> {
+
+        GraphicFaceTracker() {
+        }
+
+        /**
+         * Start tracking the detected face instance within the face overlay.
+         */
+        @Override
+        public void onNewItem(int faceId, Face item) {
+            //mFaceGraphic.setId(faceId);
+            Log.e(TAG, "face id = " + faceId);
+        }
+
+        /**
+         * Update the position/characteristics of the face within the overlay.
+         */
+        @Override
+        public void onUpdate(FaceDetector.Detections<Face> detectionResults, Face face) {
+            //mFaceGraphic.updateFace(face);
+            if (face == null) {
+                return;
+            }
+            Log.e(TAG, "face rect: pos(" + face.getPosition().x + "," + face.getPosition().y + ")  width = " + face.getWidth() + " height = " + face.getHeight());
+
+//            // Draws a circle at the position of the detected face, with the face's track id below.
+//            float x = translateX(face.getPosition().x + face.getWidth() / 2);
+//            float y = translateY(face.getPosition().y + face.getHeight() / 2);
+//            //canvas.drawCircle(x, y, FACE_POSITION_RADIUS, mFacePositionPaint);
+//            //canvas.drawText("id: " + mFaceId, x + ID_X_OFFSET, y + ID_Y_OFFSET, mIdPaint);
+//            //canvas.drawText("happiness: " + String.format("%.2f", face.getIsSmilingProbability()), x - ID_X_OFFSET, y - ID_Y_OFFSET, mIdPaint);
+//            //canvas.drawText("right eye: " + String.format("%.2f", face.getIsRightEyeOpenProbability()), x + ID_X_OFFSET * 2, y + ID_Y_OFFSET * 2, mIdPaint);
+//            //canvas.drawText("left eye: " + String.format("%.2f", face.getIsLeftEyeOpenProbability()), x - ID_X_OFFSET*2, y - ID_Y_OFFSET*2, mIdPaint);
+//
+//            // Draws a bounding box around the face.
+//            float xOffset = scaleX(face.getWidth() / 2.0f);
+//            float yOffset = scaleY(face.getHeight() / 2.0f);
+//            float left = x - xOffset;
+//            float top = y - yOffset;
+//            float right = x + xOffset;
+//            float bottom = y + yOffset;
+        }
+
+        /**
+         * Hide the graphic when the corresponding face was not detected.  This can happen for
+         * intermediate frames temporarily (e.g., if the face was momentarily blocked from
+         * view).
+         */
+        @Override
+        public void onMissing(FaceDetector.Detections<Face> detectionResults) {
+            //mOverlay.remove(mFaceGraphic);
+        }
+
+        /**
+         * Called when the face is assumed to be gone for good. Remove the graphic annotation from
+         * the overlay.
+         */
+        @Override
+        public void onDone() {
+            //mOverlay.remove(mFaceGraphic);
+        }
     }
 }
