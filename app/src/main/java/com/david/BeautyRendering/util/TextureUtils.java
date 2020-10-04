@@ -7,11 +7,6 @@ import android.opengl.GLES30;
 import android.opengl.GLUtils;
 import android.util.Log;
 
-/**
- * @Author: liuwei
- * @Create: 2019/9/18 15:04
- * @Description:
- */
 public class TextureUtils {
     private static final String TAG = "TextureUtils";
 

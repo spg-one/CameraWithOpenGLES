@@ -13,11 +13,6 @@ import javax.microedition.khronos.opengles.GL10;
 import static com.david.BeautyRendering.util.RenderUtil.compileShader;
 import static com.david.BeautyRendering.util.RenderUtil.linkProgram;
 
-/**
- * @Author: liuwei
- * @Create: 2019/6/26 16:47
- * @Description: 绘制一个彩色的三角形
- */
 public class ColorTrianglesRenderer implements GLSurfaceView.Renderer {
     private float[] vertexPoints = new float[]{
             0.0f, 0.5f, 0.0f,

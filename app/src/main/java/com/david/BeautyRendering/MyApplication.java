@@ -2,11 +2,6 @@ package com.david.BeautyRendering;
 
 import android.app.Application;
 
-/**
- * @Author: liuwei
- * @Create: 2019/10/11 11:11
- * @Description:
- */
 public class MyApplication extends Application {
     private static MyApplication application;
 

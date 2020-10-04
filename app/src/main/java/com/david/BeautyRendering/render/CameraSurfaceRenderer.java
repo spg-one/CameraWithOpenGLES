@@ -21,11 +21,6 @@ import java.nio.ShortBuffer;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-/**
- * @Author: liuwei
- * @Create: 2019/10/11 10:41
- * @Description:
- */
 public class CameraSurfaceRenderer implements GLSurfaceView.Renderer {
     private final FloatBuffer vertexBuffer, mTexVertexBuffer;
 

@@ -5,11 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-/**
- * @Author: liuwei
- * @Create: 2019/10/11 11:32
- * @Description:
- */
 public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {

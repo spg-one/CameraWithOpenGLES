@@ -15,11 +15,6 @@ import javax.microedition.khronos.opengles.GL10;
 import static com.david.BeautyRendering.util.RenderUtil.compileShader;
 import static com.david.BeautyRendering.util.RenderUtil.linkProgram;
 
-/**
- * @Author: liuwei
- * @Create: 2019/6/25 17:31
- * @Description:
- */
 public class CircleRenderer implements GLSurfaceView.Renderer {
     private final FloatBuffer vertexBuffer;
     private int uMatrixLocation;

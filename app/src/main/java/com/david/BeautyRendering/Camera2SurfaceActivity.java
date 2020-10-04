@@ -13,6 +13,7 @@ import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.StreamConfigurationMap;
+import android.media.FaceDetector;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -27,11 +28,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-/**
- * @Author: liuwei
- * @Create: 2019/10/11 15:59
- * @Description:
- */
 public class Camera2SurfaceActivity extends Activity {
     private static final String TAG = "Camera2SurfaceActivity";
     private static CameraManager cameraManager;

@@ -18,11 +18,6 @@ import java.nio.ShortBuffer;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-/**
- * @Author: liuwei
- * @Create: 2019/9/18 15:05
- * @Description:
- */
 public class TextureRender implements GLSurfaceView.Renderer {
     private static final String TAG = "TextureRenderer";
 

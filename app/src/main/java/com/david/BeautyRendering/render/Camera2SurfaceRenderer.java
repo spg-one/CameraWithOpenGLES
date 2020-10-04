@@ -19,11 +19,6 @@ import java.nio.ShortBuffer;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-/**
- * @Author: liuwei
- * @Create: 2019/10/11 16:03
- * @Description:
- */
 public class Camera2SurfaceRenderer implements GLSurfaceView.Renderer {
 
 
@@ -85,17 +80,6 @@ public class Camera2SurfaceRenderer implements GLSurfaceView.Renderer {
         //加载纹理
         textureId = loadTexture();
         mSurfaceTexture = new SurfaceTexture(textureId);
-//设置背景颜色
-//        GLES30.glClearColor(0.5f, 0.5f, 0.5f, 0.5f);
-//        //编译
-//        final int vertexShaderId = RenderUtil.compileShader(GLES30.GL_VERTEX_SHADER, ResReadUtils.readResource(R.raw.vertex_camera_shader));
-//        final int fragmentShaderId = RenderUtil.compileShader(GLES30.GL_FRAGMENT_SHADER, ResReadUtils.readResource(R.raw.fragment_camera_shader));
-//        //链接程序片段
-//        mProgram = RenderUtil.linkProgram(vertexShaderId, fragmentShaderId);
-//
-//        uTextureMatrixLocation = GLES30.glGetUniformLocation(mProgram, "uTextureMatrix");
-//        //获取Shader中定义的变量在program中的位置
-//        uTextureSamplerLocation = GLES30.glGetUniformLocation(mProgram, "yuvTexSampler");
     }
 
     @Override
@@ -106,34 +90,9 @@ public class Camera2SurfaceRenderer implements GLSurfaceView.Renderer {
 
     @Override
     public void onDrawFrame(GL10 gl) {
-        //GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT);
-
-        //使用程序片段
-        //GLES30.glUseProgram(mProgram);
-
         //更新纹理图像
         mSurfaceTexture.updateTexImage();
         mSurfaceTexture.getTransformMatrix(transformMatrix);
-//
-//        //激活纹理单元0
-//        GLES30.glActiveTexture(GLES30.GL_TEXTURE0);
-//        //绑定外部纹理到纹理单元0
-//        GLES30.glBindTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, textureId);
-//        //将此纹理单元床位片段着色器的uTextureSampler外部纹理采样器
-//        GLES30.glUniform1i(uTextureSamplerLocation, 0);
-//
-//        //将纹理矩阵传给片段着色器
-//        GLES30.glUniformMatrix4fv(uTextureMatrixLocation, 1, false, transformMatrix, 0);
-//
-//        GLES30.glEnableVertexAttribArray(0);
-//        GLES30.glVertexAttribPointer(0, 3, GLES30.GL_FLOAT, false, 0, vertexBuffer);
-//
-//        GLES30.glEnableVertexAttribArray(1);
-//        GLES30.glVertexAttribPointer(1, 2, GLES30.GL_FLOAT, false, 0, mTexVertexBuffer);
-//
-//        // 绘制
-//        GLES30.glDrawElements(GLES30.GL_TRIANGLES, VERTEX_INDEX.length, GLES30.GL_UNSIGNED_SHORT, mVertexIndexBuffer);
-
 
         NativeJNILib.step(transformMatrix);
     }

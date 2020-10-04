@@ -2,11 +2,6 @@ package com.david.BeautyRendering.util;
 
 import android.opengl.GLES30;
 
-/**
- * @Author: liuwei
- * @Create: 2019/6/26 16:48
- * @Description:
- */
 public class RenderUtil {
 
     /**

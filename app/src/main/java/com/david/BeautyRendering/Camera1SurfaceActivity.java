@@ -9,11 +9,6 @@ import android.support.v4.app.ActivityCompat;
 
 import com.david.BeautyRendering.render.CameraSurfaceRenderer;
 
-/**
- * @Author: liuwei
- * @Create: 2019/10/11 11:31
- * @Description:
- */
 public class Camera1SurfaceActivity extends Activity {
     private static final int PERMISSION_CODE = 100;
 
