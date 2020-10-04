@@ -3,6 +3,7 @@ package com.david.BeautyRendering;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.SurfaceTexture;
@@ -15,6 +16,7 @@ import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.support.annotation.RequiresPermission;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.util.Size;
@@ -30,6 +32,7 @@ import com.google.android.gms.vision.face.FaceDetector;
 
 import com.david.BeautyRendering.render.Camera2SurfaceRenderer;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
@@ -80,6 +83,11 @@ public class Camera2SurfaceActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+        try {
+            startCameraSource();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         openCamera();
     }
 
@@ -90,6 +98,35 @@ public class Camera2SurfaceActivity extends Activity {
         camera2SurfaceRenderer = new Camera2SurfaceRenderer();
         mGLSurfaceView.setRenderer(camera2SurfaceRenderer);
         setContentView(mGLSurfaceView);
+    }
+
+    /**
+     * Starts or restarts the camera source, if it exists.  If the camera source doesn't exist yet
+     * (e.g., because onResume was called before the camera source was created), this will be called
+     * again when the camera source is created.
+     */
+    private void startCameraSource() throws IOException {
+
+        // check that the device has play services available.
+        int code = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(
+                getApplicationContext());
+        if (code != ConnectionResult.SUCCESS) {
+            Dialog dlg =
+                    GoogleApiAvailability.getInstance().getErrorDialog(this, code, 9001);
+            dlg.show();
+        }
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        mCameraSource.start();
     }
 
     CameraCaptureSession.StateCallback sessionsStateCallback = new CameraCaptureSession.StateCallback() {
