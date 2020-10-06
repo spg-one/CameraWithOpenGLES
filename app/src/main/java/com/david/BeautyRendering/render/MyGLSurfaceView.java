@@ -1,27 +1,50 @@
 package com.david.BeautyRendering.render;
 
+import android.content.Context;
 import android.graphics.SurfaceTexture;
 import android.opengl.GLES11Ext;
 import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
+import android.util.AttributeSet;
 import android.util.Log;
 
 import com.david.BeautyRendering.NativeJNILib;
-import com.david.BeautyRendering.R;
-import com.david.BeautyRendering.util.RenderUtil;
-import com.david.BeautyRendering.util.ResReadUtils;
-
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.FloatBuffer;
-import java.nio.ShortBuffer;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-public class Camera2SurfaceRenderer implements GLSurfaceView.Renderer {
+public class MyGLSurfaceView extends GLSurfaceView {
 
+    private Camera2SurfaceRenderer mRenderer;
 
+    public MyGLSurfaceView(Context context) {
+        super(context);
+        init();
+    }
+    public MyGLSurfaceView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        init();
+    }
+
+    private void init() {
+        setEGLContextClientVersion(3);
+
+        // Set the Renderer for drawing on the GLSurfaceView
+        mRenderer = new Camera2SurfaceRenderer();
+        setRenderer(mRenderer);
+
+        // Render the view only when there is a change in the drawing data
+        //setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
+    }
+
+    public SurfaceTexture getSurfaceTexture() {
+        return mRenderer.getSurfaceTexture();
+    }
+}
+
+class Camera2SurfaceRenderer implements GLSurfaceView.Renderer {
+
+    private static final String TAG = "Camera2SurfaceRenderer";
     private int mProgram;
 
     private int textureId;
@@ -99,6 +122,7 @@ public class Camera2SurfaceRenderer implements GLSurfaceView.Renderer {
 
 
     public SurfaceTexture getSurfaceTexture() {
+        Log.e(TAG, "mSurfaceTexture = " + mSurfaceTexture);
         return mSurfaceTexture;
     }
 

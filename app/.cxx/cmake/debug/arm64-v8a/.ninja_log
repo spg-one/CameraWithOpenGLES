@@ -1,5 +1,7 @@
 # ninja log v5
-0	316	623497174	CMakeFiles/native-lib.dir/native-lib.cpp.o	1ceb7e2890e8080d
-318	425	623497175	G:/android/BeautyRendering/app/build/intermediates/cmake/debug/obj/arm64-v8a/libnative-lib.so	53d45bd90716996f
-0	193	623514133	CMakeFiles/native-lib.dir/native-lib.cpp.o	1ceb7e2890e8080d
-193	338	623514133	G:/android/BeautyRendering/app/build/intermediates/cmake/debug/obj/arm64-v8a/libnative-lib.so	53d45bd90716996f
+1	456	623606427	CMakeFiles/native-lib.dir/native-lib.cpp.o	1ceb7e2890e8080d
+457	598	623606427	G:/android/BeautyRendering/app/build/intermediates/cmake/debug/obj/arm64-v8a/libnative-lib.so	53d45bd90716996f
+3	661	623660111	CMakeFiles/native-lib.dir/native-lib.cpp.o	1ceb7e2890e8080d
+661	915	623660111	G:/android/BeautyRendering/app/build/intermediates/cmake/debug/obj/arm64-v8a/libnative-lib.so	53d45bd90716996f
+3	272	623663850	CMakeFiles/native-lib.dir/native-lib.cpp.o	1ceb7e2890e8080d
+272	413	623663850	G:/android/BeautyRendering/app/build/intermediates/cmake/debug/obj/arm64-v8a/libnative-lib.so	53d45bd90716996f

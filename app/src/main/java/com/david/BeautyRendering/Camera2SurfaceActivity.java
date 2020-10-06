@@ -30,7 +30,7 @@ import com.google.android.gms.vision.Tracker;
 import com.google.android.gms.vision.face.Face;
 import com.google.android.gms.vision.face.FaceDetector;
 
-import com.david.BeautyRendering.render.Camera2SurfaceRenderer;
+import com.david.BeautyRendering.render.MyGLSurfaceView;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -49,15 +49,22 @@ public class Camera2SurfaceActivity extends Activity {
     CaptureRequest.Builder previewRequestBuilder;
     CaptureRequest previewRequest;
     Surface surface;
-    private GLSurfaceView mGLSurfaceView;
     SurfaceTexture surfaceTexture;
-    private Camera2SurfaceRenderer camera2SurfaceRenderer;
+    private MyGLSurfaceView myCamera2SurfaceView;
     private CameraSource mCameraSource = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.activity_glsurface);
         requestPermission();
+
+        myCamera2SurfaceView = findViewById(R.id.preview);
+        if (myCamera2SurfaceView == null) {
+            Log.d(TAG, "mGLSurfaceView is null");
+        }
+
     }
 
     private void requestPermission() {
@@ -83,21 +90,41 @@ public class Camera2SurfaceActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        try {
-            startCameraSource();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            startCameraSource();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
         openCamera();
     }
 
     private void setupViews() {
-        //实例化一个GLSurfaceView
-        mGLSurfaceView = new GLSurfaceView(this);
-        mGLSurfaceView.setEGLContextClientVersion(3);
-        camera2SurfaceRenderer = new Camera2SurfaceRenderer();
-        mGLSurfaceView.setRenderer(camera2SurfaceRenderer);
-        setContentView(mGLSurfaceView);
+
+//        Context context = this;
+//        FaceDetector detector = new FaceDetector.Builder(context)
+//                .setClassificationType(FaceDetector.ALL_CLASSIFICATIONS)
+//                .build();
+//        detector.setProcessor(
+//                new MultiProcessor.Builder<>(new GraphicFaceTrackerFactory())
+//                        .build());
+//
+//        if (!detector.isOperational()) {
+//            // Note: The first time that an app using face API is installed on a device, GMS will
+//            // download a native library to the device in order to do detection.  Usually this
+//            // completes before the app is run for the first time.  But if that download has not yet
+//            // completed, then the above call will not detect any faces.
+//            //
+//            // isOperational() can be used to check if the required native library is currently
+//            // available.  The detector will automatically become operational once the library
+//            // download completes on device.
+//            Log.w(TAG, "Face detector dependencies are not yet available.");
+//        }
+//
+//        mCameraSource = new CameraSource.Builder(context, detector)
+//                .setRequestedPreviewSize(640, 480)
+//                .setFacing(CameraSource.CAMERA_FACING_FRONT)
+//                .setRequestedFps(30.0f)
+//                .build();
     }
 
     /**
@@ -126,7 +153,7 @@ public class Camera2SurfaceActivity extends Activity {
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        mCameraSource.start();
+        //mCameraSource.start();
     }
 
     CameraCaptureSession.StateCallback sessionsStateCallback = new CameraCaptureSession.StateCallback() {
@@ -155,7 +182,7 @@ public class Camera2SurfaceActivity extends Activity {
     CameraDevice.StateCallback cameraStateCallback = new CameraDevice.StateCallback() {
         @Override
         public void onOpened(CameraDevice camera) {
-            surfaceTexture = camera2SurfaceRenderer.getSurfaceTexture();
+            surfaceTexture = myCamera2SurfaceView.getSurfaceTexture();
             if (surfaceTexture == null) {
                 return;
             }
@@ -166,7 +193,7 @@ public class Camera2SurfaceActivity extends Activity {
             surfaceTexture.setOnFrameAvailableListener(new SurfaceTexture.OnFrameAvailableListener() {
                 @Override
                 public void onFrameAvailable(final SurfaceTexture surfaceTexture) {
-                    mGLSurfaceView.requestRender();
+                    myCamera2SurfaceView.requestRender();
                 }
             });
             surface = new Surface(surfaceTexture);
@@ -196,32 +223,6 @@ public class Camera2SurfaceActivity extends Activity {
     };
 
     private void initCamera() {
-        Context context = getApplicationContext();
-        FaceDetector detector = new FaceDetector.Builder(context)
-                .setClassificationType(FaceDetector.ALL_CLASSIFICATIONS)
-                .build();
-        detector.setProcessor(
-                new MultiProcessor.Builder<>(new GraphicFaceTrackerFactory())
-                        .build());
-
-        if (!detector.isOperational()) {
-            // Note: The first time that an app using face API is installed on a device, GMS will
-            // download a native library to the device in order to do detection.  Usually this
-            // completes before the app is run for the first time.  But if that download has not yet
-            // completed, then the above call will not detect any faces.
-            //
-            // isOperational() can be used to check if the required native library is currently
-            // available.  The detector will automatically become operational once the library
-            // download completes on device.
-            Log.w(TAG, "Face detector dependencies are not yet available.");
-        }
-
-        mCameraSource = new CameraSource.Builder(context, detector)
-                .setRequestedPreviewSize(640, 480)
-                .setFacing(CameraSource.CAMERA_FACING_FRONT)
-                .setRequestedFps(30.0f)
-                .build();
-
 
         cameraManager = (CameraManager) MyApplication.getApplication().getSystemService(Context.CAMERA_SERVICE);
         //获取指定相机的输出尺寸列表
