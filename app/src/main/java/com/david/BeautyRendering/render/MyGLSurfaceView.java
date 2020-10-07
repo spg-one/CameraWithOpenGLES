@@ -201,7 +201,17 @@ public class MyGLSurfaceView extends GLSurfaceView  implements GLSurfaceView.Ren
         intBuffer.position(0);
 
         try {
+            int glError = gl.glGetError();
+            if(glError != GL10.GL_NO_ERROR)
+            {
+                Log.e(TAG, "createBitmapFromGLSurface: " + glError);
+            }
             gl.glReadPixels(x, y, w, h, GL10.GL_RGBA, GL10.GL_UNSIGNED_BYTE, intBuffer);
+            glError = gl.glGetError();
+            if(glError != GL10.GL_NO_ERROR)
+            {
+                Log.e(TAG, "createBitmapFromGLSurface: " + glError);
+            }
             int offset1, offset2;
             for (int i = 0; i < h; i++) {
                 offset1 = i * w;
