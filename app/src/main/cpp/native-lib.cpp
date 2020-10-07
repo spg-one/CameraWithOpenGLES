@@ -48,6 +48,21 @@ auto gFragmentShader = R"(#version 300 es
         }
 )";
 
+auto gFaceRectVertexShader = R"(#version 300 es
+        layout (location = 0) in vec2 aPos;
+        void main() {
+        gl_Position = vec4(aPos, 0.0, 1.0);
+        gl_PointSize = 10.0;
+        }
+)";
+auto gFaceRectFragmentShader = R"(#version 300 es
+        precision mediump float;
+        out vec4 FragColor;
+        void main() {
+        FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+        }
+)";
+
 const float gVertices[] = {
         // positions         // texture coords
         1.0f,  1.0f, 0.0f,   1.0f, 1.0f, // top right
@@ -126,6 +141,7 @@ GLuint createProgram(const char* pVertexSource, const char* pFragmentSource) {
 }
 
 GLuint gProgram;
+GLuint gFaceRectProgram;
 GLuint gMatrixLocation;
 GLuint gInputTexture;
 GLuint VBO, VAO, EBO;
@@ -141,6 +157,12 @@ bool setupGraphics(int w, int h, int tex) {
     gProgram = createProgram(gVertexShader, gFragmentShader);
     if (!gProgram) {
         LOGE("Could not create program.");
+        return false;
+    }
+
+    gFaceRectProgram = createProgram(gFaceRectVertexShader, gFaceRectFragmentShader);
+    if (!gFaceRectProgram) {
+        LOGE("Could not create gFaceRectProgram.");
         return false;
     }
 
@@ -166,6 +188,7 @@ bool setupGraphics(int w, int h, int tex) {
 
     glViewport(0, 0, w, h);
     checkGlError("glViewport");
+    glBindVertexArray(0);
     return true;
 }
 
@@ -188,6 +211,21 @@ void renderFrame(float *matrix) {
     checkGlError("glDrawElements");
 }
 
+void renderFaceRects(float *matrix, int pointsNum) {
+
+    glUseProgram(gFaceRectProgram);
+    checkGlError("glUseProgram");
+
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, matrix);
+    checkGlError("glVertexAttribPointer");
+    glEnableVertexAttribArray(0);
+
+    int lineNum = pointsNum / 2;
+    glDrawArrays(GL_LINES, 0, lineNum);
+    checkGlError("glDrawArrays");
+}
+
 extern "C"
 JNIEXPORT void JNICALL
 Java_com_david_BeautyRendering_NativeJNILib_init(JNIEnv *env, jclass clazz, jint width,
@@ -200,4 +238,11 @@ Java_com_david_BeautyRendering_NativeJNILib_step(JNIEnv *env, jclass clazz, jflo
     jfloat* valuesjf = env->GetFloatArrayElements(matrixValues, 0);
     float* valuesf = valuesjf;
     renderFrame(valuesf);
+}extern "C"
+JNIEXPORT void JNICALL
+Java_com_david_BeautyRendering_NativeJNILib_drawFaceRects(JNIEnv *env, jclass clazz,
+                                                          jfloatArray face_points, int pointsNum) {
+    jfloat* valuesjf = env->GetFloatArrayElements(face_points, 0);
+    float* valuesf = valuesjf;
+    renderFaceRects(valuesf, pointsNum);
 }

@@ -6,4 +6,5 @@ public class NativeJNILib {
     }
     public static native void init(int width, int height, int tex);
     public static native void step(float []matrixValues);
+    public static native void drawFaceRects(float []facePoints, int pointsNum);
 }

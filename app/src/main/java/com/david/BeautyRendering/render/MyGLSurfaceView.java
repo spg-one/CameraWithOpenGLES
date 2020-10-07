@@ -33,13 +33,16 @@ import javax.microedition.khronos.opengles.GL10;
 public class MyGLSurfaceView extends GLSurfaceView  implements GLSurfaceView.Renderer{
 
     private static final String TAG = "MyGLSurfaceView";
-    private int textureId;
+    private int textureId = 0;
 
     private float[] transformMatrix = new float[16];
 
     private SurfaceTexture mSurfaceTexture;
     private Bitmap snapshotBitmap;
     static int frameIndexTmp = 0;
+    static final int mMaxFace = 3;
+    FaceDetector.Face[] mFaces = new FaceDetector.Face[mMaxFace];
+    int mFacesFound = 0;
 
     public MyGLSurfaceView(Context context) {
         super(context);
@@ -60,12 +63,20 @@ public class MyGLSurfaceView extends GLSurfaceView  implements GLSurfaceView.Ren
         //setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
     }
 
+    private void InitTexture()
+    {
+        if(textureId == 0)
+        {
+            textureId = loadTexture();
+            mSurfaceTexture = new SurfaceTexture(textureId);
+        }
+    }
+
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         Log.e("Renderer", "onSurfaceCreated");
         //加载纹理
-        textureId = loadTexture();
-        mSurfaceTexture = new SurfaceTexture(textureId);
+        InitTexture();
     }
 
     @Override
@@ -90,46 +101,30 @@ public class MyGLSurfaceView extends GLSurfaceView  implements GLSurfaceView.Ren
                 @Override
                 public void onBitmapReady(Bitmap bitmap) {
 
-                    int maxFace = 3;
-                    FaceDetector detector = new FaceDetector(bitmap.getWidth(), bitmap.getHeight(), maxFace);
-                    FaceDetector.Face[] faces = new FaceDetector.Face[maxFace];
-                    int facesFound = detector.findFaces(bitmap, faces);
-                    if(facesFound > 0)
-                    {
-                        for(int count=0;count<facesFound;count++)
-                        {
-                            FaceDetector.Face face = faces[count];
-                            PointF midPoint=new PointF();
-                            face.getMidPoint(midPoint);
-                            float eyeDistance=face.eyesDistance();
-
-                            float left = midPoint.x - (1.4f * eyeDistance);
-                            float top = midPoint.y - (1.8f * eyeDistance);
-                            float width = (2.8f * eyeDistance);
-                            float height = (3.6f * eyeDistance);
-                            Log.e(TAG, "face index:" + count + " pos(" + left + "," + top + ")  width = " + width + " height = " + height);
-                        }
-                    }
-                    else
-                    {
-                        String filePath = Environment.getExternalStorageDirectory().getPath()+ '/' + "1.png";
-                        Log.e(TAG, "face not found, imageSize(" + bitmap.getWidth() + "," + bitmap.getHeight() + ") save file = " + filePath);
-
-                        try (FileOutputStream out = new FileOutputStream(filePath)) {
-                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out); // bmp is your Bitmap instance
-                            // PNG is a lossless format, the compression factor (100) is ignored
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
+                    FaceDetector detector = new FaceDetector(bitmap.getWidth(), bitmap.getHeight(), mMaxFace);
+                    mFacesFound = detector.findFaces(bitmap, mFaces);
+//                    if(mFacesFound == 0)
+//                    {
+//                        String filePath = Environment.getExternalStorageDirectory().getPath()+ '/' + "1.png";
+//                        Log.e(TAG, "face not found, imageSize(" + bitmap.getWidth() + "," + bitmap.getHeight() + ") save file = " + filePath);
+//
+//                        try (FileOutputStream out = new FileOutputStream(filePath)) {
+//                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out); // bmp is your Bitmap instance
+//                            // PNG is a lossless format, the compression factor (100) is ignored
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
                 }
             });
         }
 
+        DrawFacesRect();
     }
 
 
     public SurfaceTexture getSurfaceTexture() {
+        InitTexture();
         Log.e(TAG, "mSurfaceTexture = " + mSurfaceTexture);
         return mSurfaceTexture;
     }
@@ -155,6 +150,52 @@ public class MyGLSurfaceView extends GLSurfaceView  implements GLSurfaceView.Ren
         return tex[0];
     }
 
+    private void DrawFacesRect()
+    {
+        if(mFacesFound <= 0)
+        {
+            return;
+        }
+        float halfTexWidth = getWidth() / 2.0f;
+        float halfTexHeight = getHeight() / 2.0f;
+        int pointsNum = mFacesFound * 8;
+        float[] facePoints = new float[pointsNum * 2]; //point need (x y) two float.
+        int facePointIndex = 0;
+        for(int count=0;count<mFacesFound;count++)
+        {
+            FaceDetector.Face face = mFaces[count];
+            PointF midPoint=new PointF();
+            face.getMidPoint(midPoint);
+            float eyeDistance=face.eyesDistance();
+
+            float left = midPoint.x - (1.4f * eyeDistance);
+            float top = midPoint.y - (1.8f * eyeDistance);
+            float width = (2.8f * eyeDistance);
+            float height = (3.6f * eyeDistance);
+            Log.e(TAG, "face index:" + count + " pos(" + left + "," + top + ")  width = " + width + " height = " + height);
+
+            //convert to gl window's  -1 ~ 1
+            left = (left - halfTexWidth) / halfTexWidth;
+            top = (top - halfTexHeight) / halfTexHeight;
+            width = width / halfTexWidth;
+            height = height / halfTexHeight;
+
+            //use fourth line to dray rect, each line need two points.
+            facePoints[facePointIndex++] = left;
+            facePoints[facePointIndex++] = top;
+
+            facePoints[facePointIndex++] = left + width;
+            facePoints[facePointIndex++] = top;
+
+            facePoints[facePointIndex++] = left + width;
+            facePoints[facePointIndex++] = top + height;
+
+            facePoints[facePointIndex++] = left;
+            facePoints[facePointIndex++] = top + height;
+        }
+
+        NativeJNILib.drawFaceRects(facePoints, pointsNum);
+    }
 
     private interface BitmapReadyCallbacks {
         void onBitmapReady(Bitmap bitmap);
