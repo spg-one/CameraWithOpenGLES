@@ -171,15 +171,12 @@ public class MyGLSurfaceView extends GLSurfaceView  implements GLSurfaceView.Ren
 
     // supporting methods
     private void captureBitmap(final GL10 gl, final BitmapReadyCallbacks bitmapReadyCallbacks) {
-        queueEvent(new Runnable() {
-            @Override
-            public void run() {
-                snapshotBitmap = createBitmapFromGLSurface(0, 0, getWidth(), getHeight(), gl);
+        snapshotBitmap = createBitmapFromGLSurface(0, 0, getWidth(), getHeight(), gl);
 
-                //convert bitmap to RGB 565
-                //Bitmap convertedBitmap = convert(snapshotBitmap, Bitmap.Config.RGB_565);
+        //convert bitmap to RGB 565
+        Bitmap convertedBitmap = convert(snapshotBitmap, Bitmap.Config.RGB_565);
 
-                bitmapReadyCallbacks.onBitmapReady(snapshotBitmap);
+        bitmapReadyCallbacks.onBitmapReady(convertedBitmap);
 
 //                runOnUiThread(new Runnable() {
 //                    @Override
@@ -187,10 +184,6 @@ public class MyGLSurfaceView extends GLSurfaceView  implements GLSurfaceView.Ren
 //                        bitmapReadyCallbacks.onBitmapReady(snapshotBitmap);
 //                    }
 //                });
-
-            }
-        });
-
     }
 
     private Bitmap createBitmapFromGLSurface(int x, int y, int w, int h, GL10 gl) {
