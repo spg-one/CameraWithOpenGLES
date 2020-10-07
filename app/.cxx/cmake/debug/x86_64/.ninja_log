@@ -1,3 +1,5 @@
 # ninja log v5
 1	238	623606428	CMakeFiles/native-lib.dir/native-lib.cpp.o	6dac3f3b10685e8d
 239	363	623606428	G:/android/BeautyRendering/app/build/intermediates/cmake/debug/obj/x86_64/libnative-lib.so	31564fba69fef926
+5	214	623665147	CMakeFiles/native-lib.dir/native-lib.cpp.o	6dac3f3b10685e8d
+214	539	623665147	G:/android/BeautyRendering/app/build/intermediates/cmake/debug/obj/x86_64/libnative-lib.so	31564fba69fef926

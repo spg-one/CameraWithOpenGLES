@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
@@ -14,6 +15,7 @@ import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.StreamConfigurationMap;
+import android.opengl.GLException;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.support.annotation.RequiresPermission;
@@ -33,10 +35,15 @@ import com.google.android.gms.vision.face.FaceDetector;
 import com.david.BeautyRendering.render.MyGLSurfaceView;
 
 import java.io.IOException;
+import java.nio.IntBuffer;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import javax.microedition.khronos.egl.EGL10;
+import javax.microedition.khronos.egl.EGLContext;
+import javax.microedition.khronos.opengles.GL10;
 
 public class Camera2SurfaceActivity extends Activity {
     private static final String TAG = "Camera2SurfaceActivity";
@@ -90,41 +97,41 @@ public class Camera2SurfaceActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-//        try {
-//            startCameraSource();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            startCameraSource();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         openCamera();
     }
 
     private void setupViews() {
 
-//        Context context = this;
-//        FaceDetector detector = new FaceDetector.Builder(context)
-//                .setClassificationType(FaceDetector.ALL_CLASSIFICATIONS)
-//                .build();
-//        detector.setProcessor(
-//                new MultiProcessor.Builder<>(new GraphicFaceTrackerFactory())
-//                        .build());
-//
-//        if (!detector.isOperational()) {
-//            // Note: The first time that an app using face API is installed on a device, GMS will
-//            // download a native library to the device in order to do detection.  Usually this
-//            // completes before the app is run for the first time.  But if that download has not yet
-//            // completed, then the above call will not detect any faces.
-//            //
-//            // isOperational() can be used to check if the required native library is currently
-//            // available.  The detector will automatically become operational once the library
-//            // download completes on device.
-//            Log.w(TAG, "Face detector dependencies are not yet available.");
-//        }
-//
-//        mCameraSource = new CameraSource.Builder(context, detector)
-//                .setRequestedPreviewSize(640, 480)
-//                .setFacing(CameraSource.CAMERA_FACING_FRONT)
-//                .setRequestedFps(30.0f)
-//                .build();
+        Context context = this;
+        FaceDetector detector = new FaceDetector.Builder(context)
+                .setClassificationType(FaceDetector.ALL_CLASSIFICATIONS)
+                .build();
+        detector.setProcessor(
+                new MultiProcessor.Builder<>(new GraphicFaceTrackerFactory())
+                        .build());
+
+        if (!detector.isOperational()) {
+            // Note: The first time that an app using face API is installed on a device, GMS will
+            // download a native library to the device in order to do detection.  Usually this
+            // completes before the app is run for the first time.  But if that download has not yet
+            // completed, then the above call will not detect any faces.
+            //
+            // isOperational() can be used to check if the required native library is currently
+            // available.  The detector will automatically become operational once the library
+            // download completes on device.
+            Log.w(TAG, "Face detector dependencies are not yet available.");
+        }
+
+        mCameraSource = new CameraSource.Builder(context, detector)
+                .setRequestedPreviewSize(640, 480)
+                .setFacing(CameraSource.CAMERA_FACING_FRONT)
+                .setRequestedFps(30.0f)
+                .build();
     }
 
     /**
@@ -153,7 +160,7 @@ public class Camera2SurfaceActivity extends Activity {
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        //mCameraSource.start();
+        mCameraSource.start();
     }
 
     CameraCaptureSession.StateCallback sessionsStateCallback = new CameraCaptureSession.StateCallback() {
@@ -343,4 +350,5 @@ public class Camera2SurfaceActivity extends Activity {
             //mOverlay.remove(mFaceGraphic);
         }
     }
+
 }
