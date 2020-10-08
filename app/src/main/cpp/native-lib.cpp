@@ -144,7 +144,7 @@ GLuint gProgram;
 GLuint gFaceRectProgram;
 GLuint gMatrixLocation;
 GLuint gInputTexture;
-GLuint VBO, VAO, EBO;
+GLuint VBO, VAO, EBO, facePointsVbo;
 
 bool setupGraphics(int w, int h, int tex) {
     printGLString("Version", GL_VERSION);
@@ -170,6 +170,7 @@ bool setupGraphics(int w, int h, int tex) {
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
     glGenBuffers(1, &EBO);
+    glGenBuffers(1, &facePointsVbo);
 
     glBindVertexArray(VAO);
 
@@ -216,13 +217,13 @@ void renderFaceRects(float *matrix, int pointsNum) {
     glUseProgram(gFaceRectProgram);
     checkGlError("glUseProgram");
 
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, matrix);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * pointsNum, matrix, GL_STATIC_DRAW);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
     checkGlError("glVertexAttribPointer");
     glEnableVertexAttribArray(0);
 
-    int lineNum = pointsNum / 2;
-    glDrawArrays(GL_LINES, 0, lineNum);
+    glDrawArrays(GL_LINES, 0, pointsNum);
     checkGlError("glDrawArrays");
 }
 

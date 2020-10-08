@@ -40,7 +40,7 @@ public class MyGLSurfaceView extends GLSurfaceView  implements GLSurfaceView.Ren
     private SurfaceTexture mSurfaceTexture;
     private Bitmap snapshotBitmap;
     static int frameIndexTmp = 0;
-    static final int mMaxFace = 3;
+    static final int mMaxFace = 1;
     FaceDetector.Face[] mFaces = new FaceDetector.Face[mMaxFace];
     int mFacesFound = 0;
 
@@ -158,7 +158,7 @@ public class MyGLSurfaceView extends GLSurfaceView  implements GLSurfaceView.Ren
         }
         float halfTexWidth = getWidth() / 2.0f;
         float halfTexHeight = getHeight() / 2.0f;
-        int pointsNum = mFacesFound * 8;
+        int pointsNum = mFacesFound * 4;
         float[] facePoints = new float[pointsNum * 2]; //point need (x y) two float.
         int facePointIndex = 0;
         for(int count=0;count<mFacesFound;count++)
@@ -193,6 +193,12 @@ public class MyGLSurfaceView extends GLSurfaceView  implements GLSurfaceView.Ren
             facePoints[facePointIndex++] = left;
             facePoints[facePointIndex++] = top + height;
         }
+        String tmp = "test facePoints : ";
+        for(int count=0;count<pointsNum * 2;count++)
+        {
+            tmp += ", " +  facePoints[count];
+        }
+        Log.e(TAG, tmp);
 
         NativeJNILib.drawFaceRects(facePoints, pointsNum);
     }
