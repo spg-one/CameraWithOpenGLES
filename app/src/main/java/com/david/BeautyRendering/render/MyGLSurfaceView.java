@@ -158,7 +158,7 @@ public class MyGLSurfaceView extends GLSurfaceView  implements GLSurfaceView.Ren
         }
         float halfTexWidth = getWidth() / 2.0f;
         float halfTexHeight = getHeight() / 2.0f;
-        int pointsNum = mFacesFound * 4;
+        int pointsNum = mFacesFound * 8;
         float[] facePoints = new float[pointsNum * 2]; //point need (x y) two float.
         int facePointIndex = 0;
         for(int count=0;count<mFacesFound;count++)
@@ -181,17 +181,30 @@ public class MyGLSurfaceView extends GLSurfaceView  implements GLSurfaceView.Ren
             height = height / halfTexHeight;
 
             //use fourth line to dray rect, each line need two points.
+            //Y-axis need flip
             facePoints[facePointIndex++] = left;
-            facePoints[facePointIndex++] = top;
+            facePoints[facePointIndex++] = -top;
 
             facePoints[facePointIndex++] = left + width;
-            facePoints[facePointIndex++] = top;
+            facePoints[facePointIndex++] = -top;
 
             facePoints[facePointIndex++] = left + width;
-            facePoints[facePointIndex++] = top + height;
+            facePoints[facePointIndex++] = -top;
+
+            facePoints[facePointIndex++] = left + width;
+            facePoints[facePointIndex++] = -(top + height);
+
+            facePoints[facePointIndex++] = left + width;
+            facePoints[facePointIndex++] = -(top + height);
 
             facePoints[facePointIndex++] = left;
-            facePoints[facePointIndex++] = top + height;
+            facePoints[facePointIndex++] = -(top + height);
+
+            facePoints[facePointIndex++] = left;
+            facePoints[facePointIndex++] = -(top + height);
+
+            facePoints[facePointIndex++] = left;
+            facePoints[facePointIndex++] = -top;
         }
         String tmp = "test facePoints : ";
         for(int count=0;count<pointsNum * 2;count++)

@@ -33,7 +33,6 @@ auto gVertexShader = R"(#version 300 es
         out vec2 TexCoord;
         void main() {
         gl_Position = vec4(aPos, 1.0);
-        gl_PointSize = 10.0;
         TexCoord = (u_Matrix * aTexCoord).xy;
         }
 )";
@@ -52,7 +51,6 @@ auto gFaceRectVertexShader = R"(#version 300 es
         layout (location = 0) in vec2 aPos;
         void main() {
         gl_Position = vec4(aPos, 0.0, 1.0);
-        gl_PointSize = 10.0;
         }
 )";
 auto gFaceRectFragmentShader = R"(#version 300 es
@@ -210,21 +208,33 @@ void renderFrame(float *matrix) {
     checkGlError("glBindVertexArray");
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, 0);
     checkGlError("glDrawElements");
+    glBindVertexArray(0);
 }
 
 void renderFaceRects(float *matrix, int pointsNum) {
+//    glClearColor(0, 0, 0, 1.0f);
+//    checkGlError("glClearColor");
+//    glClear( GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+//    checkGlError("glClear");
+    //glEnable(GL_BLEND);
+    //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 
     glUseProgram(gFaceRectProgram);
     checkGlError("glUseProgram");
 
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * pointsNum, matrix, GL_STATIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, facePointsVbo);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * pointsNum * 2, matrix, GL_STATIC_DRAW);
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
     checkGlError("glVertexAttribPointer");
     glEnableVertexAttribArray(0);
 
+    glLineWidth(3.0f);
     glDrawArrays(GL_LINES, 0, pointsNum);
     checkGlError("glDrawArrays");
+    glLineWidth(1.0f);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
 }
 
 extern "C"
