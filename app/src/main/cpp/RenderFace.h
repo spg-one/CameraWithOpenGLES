@@ -30,6 +30,7 @@ public:
     }
     void Rendering(float *matrix, int pointsNum)
     {
+        LOGI("RenderTexture Rendering.");
         Init();
 
         //glEnable(GL_BLEND);

@@ -1,9 +1,11 @@
 
 #include "RenderTexture.h"
 #include "RenderFace.h"
+#include "RenderTextureWithBilateral.h"
 
 static CRenderTexture renderTexOem;
 static CRenderFace renderFace;
+static CRenderTextureBilateral renderBilateral;
 
 int gWidth, gHeight, gInputTexture;
 
@@ -24,7 +26,8 @@ bool setupGraphics(int w, int h, int tex) {
 }
 
 void renderFrame(float *matrix) {
-    renderTexOem.Rendering(gInputTexture, matrix);
+    //renderTexOem.Rendering(gInputTexture, matrix);
+    renderBilateral.Rendering(gInputTexture, matrix, gWidth, gHeight);
 }
 
 void renderFaceRects(float *matrix, int pointsNum) {
