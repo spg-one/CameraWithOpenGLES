@@ -150,7 +150,12 @@ public class Camera2SurfaceActivity extends Activity {
         cameraManager = (CameraManager) MyApplication.getApplication().getSystemService(Context.CAMERA_SERVICE);
         //获取指定相机的输出尺寸列表
         outputSizes = getCameraOutputSizes(cameraId, SurfaceTexture.class);
-        photoSize = outputSizes.get(0);
+//        for(int i=0; i<outputSizes.size(); ++i)
+//        {
+//            Log.e(TAG, "camera index = " + i + " size = (" + outputSizes.get(i).getWidth() + "," + outputSizes.get(i).getHeight() + ")");
+//        }
+        //photoSize = outputSizes.get(0);
+        photoSize = new Size(1280, 960);  //use a default size.
     }
 
     @SuppressLint("MissingPermission")

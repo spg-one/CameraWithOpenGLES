@@ -28,3 +28,7 @@
 1	18	0	clean	81a0c8a35c45b8df
 3	211	624080537	CMakeFiles/native-lib.dir/native-lib.cpp.o	3f891449e96f2ded
 211	334	624080537	G:/android/BeautyRendering/app/build/intermediates/cmake/debug/obj/armeabi-v7a/libnative-lib.so	1b057491aaba54b
+16	900	624103550	CMakeFiles/native-lib.dir/native-lib.cpp.o	3f891449e96f2ded
+900	1190	624103550	G:/android/BeautyRendering/app/build/intermediates/cmake/debug/obj/armeabi-v7a/libnative-lib.so	1b057491aaba54b
+2	299	624105465	CMakeFiles/native-lib.dir/native-lib.cpp.o	3f891449e96f2ded
+299	423	624105465	G:/android/BeautyRendering/app/build/intermediates/cmake/debug/obj/armeabi-v7a/libnative-lib.so	1b057491aaba54b

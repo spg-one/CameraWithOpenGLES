@@ -75,6 +75,7 @@ public class MyGLSurfaceView extends GLSurfaceView  implements GLSurfaceView.Ren
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
         //GLES30.glViewport(0, 0, width, height);
+        Log.e(TAG, "onSurfaceChanged(" + width + "," + height + ")");
         NativeJNILib.init(width, height, textureId);
     }
 
