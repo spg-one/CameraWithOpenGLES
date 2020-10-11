@@ -34,8 +34,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.david.BeautyRendering.TextureActivity" />
-        <activity android:name="com.david.BeautyRendering.Camera1SurfaceActivity" />
         <activity android:name="com.david.BeautyRendering.Camera2SurfaceActivity" />
     </application>
 
