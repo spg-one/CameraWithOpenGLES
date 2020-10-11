@@ -1,8 +1,10 @@
-package com.david.BeautyRendering.render;
+package com.wwm.BeautyRendering.render;
 
 import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
+
+import com.wwm.BeautyRendering.util.RenderUtil;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -11,9 +13,6 @@ import java.util.ArrayList;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
-
-import static com.david.BeautyRendering.util.RenderUtil.compileShader;
-import static com.david.BeautyRendering.util.RenderUtil.linkProgram;
 
 public class CircleRenderer implements GLSurfaceView.Renderer {
     private final FloatBuffer vertexBuffer;
@@ -59,10 +58,10 @@ public class CircleRenderer implements GLSurfaceView.Renderer {
     public void onSurfaceCreated(GL10 gl10, EGLConfig eglConfig) {
         GLES30.glClearColor(0f, 0f, 0f, 0f);
 
-        final int vertexShaderId = compileShader(GLES30.GL_VERTEX_SHADER, vertextShader);
-        final int fragmentShaderId = compileShader(GLES30.GL_FRAGMENT_SHADER, fragmentShader);
+        final int vertexShaderId = RenderUtil.compileShader(GLES30.GL_VERTEX_SHADER, vertextShader);
+        final int fragmentShaderId = RenderUtil.compileShader(GLES30.GL_FRAGMENT_SHADER, fragmentShader);
         //在OpenGLES环境中使用程序片段
-        int mProgram = linkProgram(vertexShaderId, fragmentShaderId);
+        int mProgram = RenderUtil.linkProgram(vertexShaderId, fragmentShaderId);
         GLES30.glUseProgram(mProgram);
 
         uMatrixLocation = GLES30.glGetUniformLocation(mProgram, "u_Matrix");

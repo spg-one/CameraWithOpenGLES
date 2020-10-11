@@ -1,4 +1,4 @@
-package com.david.BeautyRendering;
+package com.wwm.BeautyRendering;
 
 public class NativeJNILib {
     static{

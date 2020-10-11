@@ -1,8 +1,7 @@
-package com.david.BeautyRendering.render;
+package com.wwm.BeautyRendering.render;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -13,20 +12,14 @@ import android.opengl.GLES11Ext;
 import android.opengl.GLES30;
 import android.opengl.GLException;
 import android.opengl.GLSurfaceView;
-import android.os.Environment;
 import android.util.AttributeSet;
 import android.util.Log;
 
-import com.david.BeautyRendering.NativeJNILib;
-import com.david.BeautyRendering.R;
+import com.wwm.BeautyRendering.NativeJNILib;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.nio.IntBuffer;
 
-import javax.microedition.khronos.egl.EGL10;
 import javax.microedition.khronos.egl.EGLConfig;
-import javax.microedition.khronos.egl.EGLContext;
 import javax.microedition.khronos.opengles.GL10;
 
 

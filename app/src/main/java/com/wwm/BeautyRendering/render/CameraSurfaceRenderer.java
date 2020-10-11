@@ -1,4 +1,4 @@
-package com.david.BeautyRendering.render;
+package com.wwm.BeautyRendering.render;
 
 import android.app.Activity;
 import android.graphics.SurfaceTexture;
@@ -8,9 +8,9 @@ import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
 import android.view.Surface;
 
-import com.david.BeautyRendering.R;
-import com.david.BeautyRendering.util.RenderUtil;
-import com.david.BeautyRendering.util.ResReadUtils;
+import com.wwm.BeautyRendering.R;
+import com.wwm.BeautyRendering.util.RenderUtil;
+import com.wwm.BeautyRendering.util.ResReadUtils;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -176,7 +176,7 @@ public class CameraSurfaceRenderer implements GLSurfaceView.Renderer {
         //设置背景颜色
         GLES30.glClearColor(0.5f, 0.5f, 0.5f, 0.5f);
         //编译
-        final int vertexShaderId = RenderUtil.compileShader(GLES30.GL_VERTEX_SHADER,ResReadUtils.readResource(R.raw.vertex_camera_shader));
+        final int vertexShaderId = RenderUtil.compileShader(GLES30.GL_VERTEX_SHADER, ResReadUtils.readResource(R.raw.vertex_camera_shader));
         final int fragmentShaderId = RenderUtil.compileShader(GLES30.GL_FRAGMENT_SHADER,ResReadUtils.readResource(R.raw.fragment_camera_shader));
         //链接程序片段
         mProgram = RenderUtil.linkProgram(vertexShaderId, fragmentShaderId);

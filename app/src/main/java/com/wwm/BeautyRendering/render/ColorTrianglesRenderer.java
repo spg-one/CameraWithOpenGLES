@@ -1,7 +1,9 @@
-package com.david.BeautyRendering.render;
+package com.wwm.BeautyRendering.render;
 
 import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
+
+import com.wwm.BeautyRendering.util.RenderUtil;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -9,9 +11,6 @@ import java.nio.FloatBuffer;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
-
-import static com.david.BeautyRendering.util.RenderUtil.compileShader;
-import static com.david.BeautyRendering.util.RenderUtil.linkProgram;
 
 public class ColorTrianglesRenderer implements GLSurfaceView.Renderer {
     private float[] vertexPoints = new float[]{
@@ -74,10 +73,10 @@ public class ColorTrianglesRenderer implements GLSurfaceView.Renderer {
     public void onSurfaceCreated(GL10 gl10, EGLConfig eglConfig) {
         GLES30.glClearColor(0f, 0f, 0f, 0f);
 
-        final int vertexShaderId = compileShader(GLES30.GL_VERTEX_SHADER, vertextShader);
-        final int fragmentShaderId = compileShader(GLES30.GL_FRAGMENT_SHADER, fragmentShader);
+        final int vertexShaderId = RenderUtil.compileShader(GLES30.GL_VERTEX_SHADER, vertextShader);
+        final int fragmentShaderId = RenderUtil.compileShader(GLES30.GL_FRAGMENT_SHADER, fragmentShader);
         //在OpenGLES环境中使用程序片段
-        GLES30.glUseProgram(linkProgram(vertexShaderId, fragmentShaderId));
+        GLES30.glUseProgram(RenderUtil.linkProgram(vertexShaderId, fragmentShaderId));
     }
 
     @Override

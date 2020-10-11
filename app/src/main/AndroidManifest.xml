@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.david.BeautyRendering"
+    package="com.wwm.BeautyRendering"
     android:installLocation="auto"
     android:versionCode="1"
     android:versionName="1">
@@ -11,7 +11,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:name="com.david.BeautyRendering.MyApplication"
+        android:name="com.wwm.BeautyRendering.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -26,7 +26,7 @@
             android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="face" />
 
-        <activity android:name="com.david.BeautyRendering.MainActivity">
+        <activity android:name="com.wwm.BeautyRendering.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -34,7 +34,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.david.BeautyRendering.Camera2SurfaceActivity" />
+        <activity android:name="com.wwm.BeautyRendering.Camera2SurfaceActivity" />
     </application>
 
 </manifest>

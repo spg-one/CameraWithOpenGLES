@@ -1,4 +1,4 @@
-package com.david.BeautyRendering;
+package com.wwm.BeautyRendering;
 
 import android.app.Application;
 

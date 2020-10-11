@@ -1,8 +1,8 @@
-package com.david.BeautyRendering.util;
+package com.wwm.BeautyRendering.util;
 
 import android.content.res.Resources;
 
-import com.david.BeautyRendering.MyApplication;
+import com.wwm.BeautyRendering.MyApplication;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -1,9 +1,11 @@
-package com.david.BeautyRendering;
+package com.wwm.BeautyRendering;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
+import com.wwm.BeautyRendering.R;
 
 public class MainActivity extends Activity {
     @Override

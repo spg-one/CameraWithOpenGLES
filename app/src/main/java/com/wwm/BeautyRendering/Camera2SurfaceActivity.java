@@ -1,12 +1,10 @@
-package com.david.BeautyRendering;
+package com.wwm.BeautyRendering;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
@@ -15,19 +13,15 @@ import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.StreamConfigurationMap;
-import android.opengl.GLException;
-import android.opengl.GLSurfaceView;
 import android.os.Bundle;
-import android.support.annotation.RequiresPermission;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.util.Size;
 import android.view.Surface;
 
-import com.david.BeautyRendering.render.MyGLSurfaceView;
+import com.wwm.BeautyRendering.R;
+import com.wwm.BeautyRendering.render.MyGLSurfaceView;
 
-import java.io.IOException;
-import java.nio.IntBuffer;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;

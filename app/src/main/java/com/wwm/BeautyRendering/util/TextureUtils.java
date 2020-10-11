@@ -1,4 +1,4 @@
-package com.david.BeautyRendering.util;
+package com.wwm.BeautyRendering.util;
 
 import android.content.Context;
 import android.graphics.Bitmap;
