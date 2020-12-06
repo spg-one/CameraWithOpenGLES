@@ -35,6 +35,7 @@
         </activity>
 
         <activity android:name="com.wwm.BeautyRendering.Camera2SurfaceActivity" />
+        <activity android:name="com.wwm.BeautyRendering.ColorMapActivity" />
     </application>
 
 </manifest>

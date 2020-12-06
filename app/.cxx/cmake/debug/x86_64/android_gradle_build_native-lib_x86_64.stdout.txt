@@ -1,3 +1,2 @@
-ninja: Entering directory `G:\android\BeautyRendering\app\.cxx\cmake\debug\x86_64'
-[1/2] Building CXX object CMakeFiles/native-lib.dir/native-lib.cpp.o
-[2/2] Linking CXX shared library G:\android\BeautyRendering\app\build\intermediates\cmake\debug\obj\x86_64\libnative-lib.so
+ninja: Entering directory `C:\Users\SPGGO\Documents\Android\BeautyRendering\app\.cxx\cmake\debug\x86_64'
+ninja: no work to do.

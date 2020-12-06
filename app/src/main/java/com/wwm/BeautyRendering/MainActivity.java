@@ -20,5 +20,11 @@ public class MainActivity extends Activity {
                 startActivity(new Intent(MainActivity.this, Camera2SurfaceActivity.class));
             }
         });
+        findViewById(R.id.btn_colorMap).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, ColorMapActivity.class));
+            }
+        });
     }
 }

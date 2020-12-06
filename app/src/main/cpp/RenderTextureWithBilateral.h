@@ -5,8 +5,8 @@
 #ifndef BEAUTYRENDERING_RENDERTEXTUREWITHBILATERAL_H
 #define BEAUTYRENDERING_RENDERTEXTUREWITHBILATERAL_H
 
-
 #include "GlesCommon.h"
+#define GAUSSIAN_REPLACE_NUMBER 15
 
 class CRenderTextureBilateral {
 public:
@@ -85,7 +85,7 @@ private:
         layout (location = 0) in vec3 aPos;
         layout (location = 1) in vec4 aTexCoord;
 
-        const int GAUSSIAN_SAMPLES = 9;
+        const int GAUSSIAN_SAMPLES = 15;
         uniform float texelWidthOffset;
         uniform float texelHeightOffset;
         uniform mat4 u_Matrix;
@@ -111,7 +111,7 @@ private:
     const char* mFragmentShader = R"(#version 300 es
         #extension GL_OES_EGL_image_external_essl3 : require
         precision mediump float;
-        const int GAUSSIAN_SAMPLES = 9;
+        const int GAUSSIAN_SAMPLES = 15;
         const float distanceNormalizationFactor = 8.0;
         in vec2 blurCoordinates[GAUSSIAN_SAMPLES];
         uniform samplerExternalOES inputImageTexture;
@@ -125,7 +125,7 @@ private:
              float distanceFromCentralColor;
              float gaussianWeight;
 
-             centralColor = texture(inputImageTexture, blurCoordinates[4]);
+             centralColor = texture(inputImageTexture, blurCoordinates[GAUSSIAN_SAMPLES / 2]);
              gaussianWeightTotal = 0.18;
              sum = centralColor * 0.18;
 

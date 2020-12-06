@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#000000"
     android:orientation="vertical"
     tools:context="com.wwm.BeautyRendering.Camera2SurfaceActivity">
 
@@ -12,5 +13,15 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_margin="20dp"
+        android:background="@android:color/darker_gray"
         android:text="Camera2预览" />
+
+    <Button
+        android:id="@+id/btn_colorMap"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="20dp"
+        android:background="@android:color/darker_gray"
+        android:text="黑白滤镜" />
 </LinearLayout>

@@ -1,7 +1,7 @@
-Executable : C:\Users\Administrator\AppData\Local\Android\Sdk\cmake\3.10.2.4988404\bin\ninja.exe
+Executable : C:\Users\SPGGO\Documents\Android\Sdk\cmake\3.10.2.4988404\bin\ninja.exe
 arguments : 
 -C
-G:\android\BeautyRendering\app\.cxx\cmake\debug\armeabi-v7a
+C:\Users\SPGGO\Documents\Android\BeautyRendering\app\.cxx\cmake\debug\armeabi-v7a
 native-lib
 jvmArgs : 
 

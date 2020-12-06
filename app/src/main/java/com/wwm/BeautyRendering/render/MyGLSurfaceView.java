@@ -87,33 +87,33 @@ public class MyGLSurfaceView extends GLSurfaceView  implements GLSurfaceView.Ren
 
         NativeJNILib.step(transformMatrix);
 
-//        if(++frameIndexTmp == 20)
-//        {
-//            frameIndexTmp = 0;
+        if(++frameIndexTmp == 20)
+        {
+            frameIndexTmp = 0;
+
+            captureBitmap(gl, new BitmapReadyCallbacks() {
+                @Override
+                public void onBitmapReady(Bitmap bitmap) {
+
+                    FaceDetector detector = new FaceDetector(bitmap.getWidth(), bitmap.getHeight(), mMaxFace);
+                    mFacesFound = detector.findFaces(bitmap, mFaces);
+//                    if(mFacesFound == 0)
+//                    {
+//                        String filePath = Environment.getExternalStorageDirectory().getPath()+ '/' + "1.png";
+//                        Log.e(TAG, "face not found, imageSize(" + bitmap.getWidth() + "," + bitmap.getHeight() + ") save file = " + filePath);
 //
-//            captureBitmap(gl, new BitmapReadyCallbacks() {
-//                @Override
-//                public void onBitmapReady(Bitmap bitmap) {
-//
-//                    FaceDetector detector = new FaceDetector(bitmap.getWidth(), bitmap.getHeight(), mMaxFace);
-//                    mFacesFound = detector.findFaces(bitmap, mFaces);
-////                    if(mFacesFound == 0)
-////                    {
-////                        String filePath = Environment.getExternalStorageDirectory().getPath()+ '/' + "1.png";
-////                        Log.e(TAG, "face not found, imageSize(" + bitmap.getWidth() + "," + bitmap.getHeight() + ") save file = " + filePath);
-////
-////                        try (FileOutputStream out = new FileOutputStream(filePath)) {
-////                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out); // bmp is your Bitmap instance
-////                            // PNG is a lossless format, the compression factor (100) is ignored
-////                        } catch (IOException e) {
-////                            e.printStackTrace();
-////                        }
-////                    }
-//                }
-//            });
-//        }
-//
-//        DrawFacesRect();
+//                        try (FileOutputStream out = new FileOutputStream(filePath)) {
+//                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out); // bmp is your Bitmap instance
+//                            // PNG is a lossless format, the compression factor (100) is ignored
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+                }
+            });
+        }
+
+        DrawFacesRect();
     }
 
 
