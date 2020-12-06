@@ -13,14 +13,23 @@ public:
     {
         mProgram = 0;
     }
-    void Init()
+    void Init(int btnNumber)
     {
         if(mProgram)
         {
             //already init.
             return;
         }
-        mProgram = createProgram(mVertexShader, mFragmentShader);
+        if(btnNumber == 1){
+            mProgram = createProgram(mVertexShader, mFragmentShader);
+        }
+        else if(btnNumber == 2){
+            mProgram = createProgram(mVertexShader, mFragmentShaderWithBlack);
+        }
+        else{
+            LOGE("btn number wrong!");
+        }
+
         if (!mProgram) {
             LOGE("Could not create program.");
         }
@@ -46,10 +55,34 @@ public:
         glEnableVertexAttribArray(1);
 
         glBindVertexArray(0);
+
+        //——————————————————————————————创建ColorMap Texture————————————————————————————————//
+        locColorTable = glGetUniformLocation(mProgram, "colorTable");
+
+        glGenTextures(1, &colorMapTexture);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, colorMapTexture);
+        GLubyte textureData[11][3]= { 0, 0, 0,
+                                      28, 28, 28,
+                                      54, 54, 54,
+                                      79, 79, 79,
+                                      105, 105, 105,
+                                      130, 130, 130,
+                                      156, 156, 156,
+                                      181, 181, 181,
+                                      207, 207, 207,
+                                      232, 232, 232,
+                                      255, 255, 255};
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,
+                     256, 1, 0, GL_RGB, GL_UNSIGNED_BYTE, &textureData[0]);
+
     }
-    void Rendering(GLuint inputTexture, float *texMatrix)
+    void Rendering(GLuint inputTexture, float *texMatrix, int btnNumber)
     {
-        Init();
+        LOGI("RenderTexture Rendering.");
+        Init(btnNumber);
 
         glClearColor(0, 0, 0, 1.0f);
         checkGlError("glClearColor");
@@ -58,6 +91,8 @@ public:
 
         glUseProgram(mProgram);
         checkGlError("glUseProgram");
+
+        glUniform1i(locColorTable, 1);
 
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_EXTERNAL_OES, inputTexture);
@@ -74,6 +109,8 @@ private:
     GLuint mMatrixLocation;
     GLuint mInputTexture;
     GLuint VBO, VAO, EBO;
+    GLint locColorTable;
+    GLuint colorMapTexture;
 
     const char* mVertexShader = R"(#version 300 es
         layout (location = 0) in vec3 aPos;
@@ -93,6 +130,33 @@ private:
         uniform samplerExternalOES texture1;
         void main() {
         FragColor = texture(texture1, TexCoord);
+        }
+        )";
+    const char* mFragmentShaderWithBlack = R"(#version 300 es
+        #extension GL_OES_EGL_image_external_essl3 : require
+        precision mediump float;
+        out vec4 FragColor;
+        in vec2 TexCoord;
+        uniform samplerExternalOES texture1;
+        const highp vec3 W = vec3(0.2125, 0.7154, 0.0721);
+        void main() {
+        highp vec4 textureColor = texture(texture1, TexCoord);
+        float luminance = dot(textureColor.rgb, W);
+        FragColor = vec4(vec3(luminance), textureColor.a);
+        }
+        )";
+    const char* mFragmentShaderWithColorMap = R"(#version 300 es
+        #extension GL_OES_EGL_image_external_essl3 : require
+        precision mediump float;
+        out vec4 FragColor;
+        in vec2 TexCoord;
+        uniform samplerExternalOES texture1;
+        uniform sampler2D colorTable;
+        void main() {
+        float red = texture(texture1, TexCoord).r;
+        float green = texture(texture1, TexCoord).g;
+        float blue = texture(texture1, TexCoord).b;
+        FragColor = texture(colorTable, (red+green+blue)/255.0)
         }
         )";
 };

@@ -52,7 +52,7 @@ public:
     }
     void Rendering(GLuint inputTexture, float *texMatrix, int width, int height)
     {
-        LOGI("RenderTextureBilateral Rendering.");
+        //LOGI("RenderTextureBilateral Rendering.");
         Init();
 
         glClearColor(0, 0, 0, 1.0f);

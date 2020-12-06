@@ -25,9 +25,9 @@ bool setupGraphics(int w, int h, int tex) {
     return true;
 }
 
-void renderFrame(float *matrix) {
-    //renderTexOem.Rendering(gInputTexture, matrix);
-    renderBilateral.Rendering(gInputTexture, matrix, gWidth, gHeight);
+void renderFrame(float *matrix, int btnNumber) {
+    renderTexOem.Rendering(gInputTexture, matrix, btnNumber);
+    //renderBilateral.Rendering(gInputTexture, matrix, gWidth, gHeight);
 }
 
 void renderFaceRects(float *matrix, int pointsNum) {
@@ -43,10 +43,10 @@ Java_com_wwm_BeautyRendering_NativeJNILib_init(JNIEnv *env, jclass clazz, jint w
 }
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_wwm_BeautyRendering_NativeJNILib_step(JNIEnv *env, jclass clazz, jfloatArray matrixValues) {
+Java_com_wwm_BeautyRendering_NativeJNILib_step(JNIEnv *env, jclass clazz, jfloatArray matrixValues, jint btnNumber) {
     jfloat* valuesjf = env->GetFloatArrayElements(matrixValues, 0);
     float* valuesf = valuesjf;
-    renderFrame(valuesf);
+    renderFrame(valuesf,btnNumber);
 }extern "C"
 JNIEXPORT void JNICALL
 Java_com_wwm_BeautyRendering_NativeJNILib_drawFaceRects(JNIEnv *env, jclass clazz,

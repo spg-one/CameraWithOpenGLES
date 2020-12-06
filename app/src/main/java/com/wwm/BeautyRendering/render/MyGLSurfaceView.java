@@ -36,6 +36,8 @@ public class MyGLSurfaceView extends GLSurfaceView  implements GLSurfaceView.Ren
     static final int mMaxFace = 1;
     FaceDetector.Face[] mFaces = new FaceDetector.Face[mMaxFace];
     int mFacesFound = 0;
+    public String btnCameraMode = "";
+    public int btnCameraModeNumber;
 
     public MyGLSurfaceView(Context context) {
         super(context);
@@ -85,7 +87,7 @@ public class MyGLSurfaceView extends GLSurfaceView  implements GLSurfaceView.Ren
         mSurfaceTexture.updateTexImage();
         mSurfaceTexture.getTransformMatrix(transformMatrix);
 
-        NativeJNILib.step(transformMatrix);
+        NativeJNILib.step(transformMatrix,btnCameraModeNumber);
 
         if(++frameIndexTmp == 20)
         {
