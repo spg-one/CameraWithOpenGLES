@@ -17,14 +17,36 @@ public class MainActivity extends Activity {
         findViewById(R.id.btn_surface2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, Camera2SurfaceActivity.class));
+                Intent intent = new Intent(MainActivity.this, Camera2SurfaceActivity.class);
+                intent.putExtra("btnNumber",1);
+                startActivity(intent);
             }
         });
+        findViewById(R.id.btn_gaussianBlur).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, Camera2SurfaceActivity.class);
+                intent.putExtra("btnNumber",2);
+                startActivity(intent);
+            }
+        });
+
         findViewById(R.id.btn_colorMap).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, ColorMapActivity.class));
+                Intent intent = new Intent(MainActivity.this, Camera2SurfaceActivity.class);
+                intent.putExtra("btnNumber",3);
+                startActivity(intent);
             }
         });
+        findViewById(R.id.btn_faceDetect).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, Camera2SurfaceActivity.class);
+                intent.putExtra("btnNumber",4);
+                startActivity(intent);
+            }
+        });
+
     }
 }

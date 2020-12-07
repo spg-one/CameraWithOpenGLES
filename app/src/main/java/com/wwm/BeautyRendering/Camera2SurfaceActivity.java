@@ -49,7 +49,7 @@ public class Camera2SurfaceActivity extends Activity {
         requestPermission();
 
         myCamera2SurfaceView = findViewById(R.id.preview);
-        myCamera2SurfaceView.btnCameraModeNumber = 1;
+        myCamera2SurfaceView.btnCameraModeNumber = getIntent().getIntExtra("btnNumber",0);
         if (myCamera2SurfaceView == null) {
             Log.d(TAG, "mGLSurfaceView is null");
         }

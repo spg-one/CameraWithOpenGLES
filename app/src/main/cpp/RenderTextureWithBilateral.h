@@ -22,6 +22,7 @@ public:
             return;
         }
         mProgram = createProgram(mVertexShader, mFragmentShader);
+        LOGE("btnNumber == 2");
         if (!mProgram) {
             LOGE("Could not create program.");
         }

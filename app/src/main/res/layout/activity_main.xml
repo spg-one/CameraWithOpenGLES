@@ -7,6 +7,16 @@
     android:orientation="vertical"
     tools:context="com.wwm.BeautyRendering.Camera2SurfaceActivity">
 
+    <TextView
+        android:id="@+id/top"
+        android:layout_width="match_parent"
+        android:layout_height="58dp"
+        android:background="#4CAF50"
+        android:fontFamily="@font/black_ops_one"
+        android:gravity="center_vertical"
+        android:paddingLeft="30dp"
+        android:text="SPGGOGOGO" />
+
     <Button
         android:id="@+id/btn_surface2"
         android:layout_width="match_parent"
@@ -14,7 +24,16 @@
         android:layout_gravity="center_horizontal"
         android:layout_margin="20dp"
         android:background="@android:color/darker_gray"
-        android:text="Camera2预览" />
+        android:text="RAW" />
+
+    <Button
+        android:id="@+id/btn_gaussianBlur"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="20dp"
+        android:background="@android:color/darker_gray"
+        android:text="高斯模糊" />
 
     <Button
         android:id="@+id/btn_colorMap"
@@ -24,4 +43,14 @@
         android:layout_margin="20dp"
         android:background="@android:color/darker_gray"
         android:text="黑白滤镜" />
+
+    <Button
+        android:id="@+id/btn_faceDetect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="20dp"
+        android:background="@android:color/darker_gray"
+        android:text="人脸识别" />
+
 </LinearLayout>

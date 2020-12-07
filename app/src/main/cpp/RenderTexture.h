@@ -21,10 +21,20 @@ public:
             return;
         }
         if(btnNumber == 1){
+            LOGE("btnNumber == 1");
             mProgram = createProgram(mVertexShader, mFragmentShader);
         }
-        else if(btnNumber == 2){
-            mProgram = createProgram(mVertexShader, mFragmentShaderWithBlack);
+        else if(btnNumber == 3){
+            LOGE("btnNumber == 3");
+            mProgram = createProgram(mVertexShader, mFragmentShaderWithColorMap);
+        }
+        else if(btnNumber == 4){
+            LOGE("btnNumber == 4");
+            LOGE("program will detect face!");
+            mProgram = createProgram(mVertexShader, mFragmentShader);
+        }
+        else if(btnNumber == 0){
+            LOGE("attribute: btnNumber is set to default!");
         }
         else{
             LOGE("btn number wrong!");
@@ -62,21 +72,23 @@ public:
         glGenTextures(1, &colorMapTexture);
         glActiveTexture(GL_TEXTURE1);
         glBindTexture(GL_TEXTURE_2D, colorMapTexture);
-        GLubyte textureData[11][3]= { 0, 0, 0,
-                                      28, 28, 28,
-                                      54, 54, 54,
-                                      79, 79, 79,
-                                      105, 105, 105,
-                                      130, 130, 130,
-                                      156, 156, 156,
-                                      181, 181, 181,
-                                      207, 207, 207,
-                                      232, 232, 232,
-                                      255, 255, 255};
+        GLubyte textureData[11][3]= { {0, 0, 0},
+                                      {28, 28, 28},
+                                      {54, 54, 54},
+                                      {79, 79, 79},
+                                      {105, 105, 105},
+                                      {130, 130, 130},
+                                      {156, 156, 156},
+                                      {181, 181, 181},
+                                      {207, 207, 207},
+                                      {232, 232, 232},
+                                      {255, 255, 255}};
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,
-                     256, 1, 0, GL_RGB, GL_UNSIGNED_BYTE, &textureData[0]);
+                     11, 1, 0, GL_RGB, GL_UNSIGNED_BYTE, textureData);
 
     }
     void Rendering(GLuint inputTexture, float *texMatrix, int btnNumber)
@@ -156,7 +168,10 @@ private:
         float red = texture(texture1, TexCoord).r;
         float green = texture(texture1, TexCoord).g;
         float blue = texture(texture1, TexCoord).b;
-        FragColor = texture(colorTable, (red+green+blue)/255.0)
+        vec2 ColorCoord;
+        ColorCoord.x = (red + green + blue)/3.0;
+        ColorCoord.y = 0.0;
+        FragColor = texture(colorTable, vec2((red + green + blue)/3.0, 0.0));
         }
         )";
 };

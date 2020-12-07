@@ -26,8 +26,11 @@ bool setupGraphics(int w, int h, int tex) {
 }
 
 void renderFrame(float *matrix, int btnNumber) {
-    renderTexOem.Rendering(gInputTexture, matrix, btnNumber);
-    //renderBilateral.Rendering(gInputTexture, matrix, gWidth, gHeight);
+    if(btnNumber == 2){
+        renderBilateral.Rendering(gInputTexture, matrix, gWidth, gHeight);
+    } else{
+        renderTexOem.Rendering(gInputTexture, matrix, btnNumber);
+    }
 }
 
 void renderFaceRects(float *matrix, int pointsNum) {

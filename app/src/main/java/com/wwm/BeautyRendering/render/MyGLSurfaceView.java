@@ -114,8 +114,11 @@ public class MyGLSurfaceView extends GLSurfaceView  implements GLSurfaceView.Ren
                 }
             });
         }
+        if(btnCameraModeNumber == 4){
+            Log.e(TAG, "hhhhhhhhhhhhhhhhhhh btnCameraModeNumber =="+btnCameraModeNumber);
+            DrawFacesRect();
+        }
 
-        DrawFacesRect();
     }
 
 
